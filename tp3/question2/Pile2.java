@@ -11,6 +11,7 @@ public class Pile2 implements PileI {
 
     /** la capacite de la pile */
     private int capacite;
+    private int taille;
 
     /**
      * Creation d'une pile.
@@ -21,25 +22,37 @@ public class Pile2 implements PileI {
     public Pile2(int taille) {
         // prevoir le cas <=0
         // a completer
+        if(capacite>0){
+            this.capacite=capacite;
+        }else{
+            this.capacite=CAPACITE_PAR_DEFAUT;
+        }
+        stk=new Stack<Object>();
     }
 
     // constructeur fourni
     public Pile2() {
-        this(0);
+        this(CAPACITE_PAR_DEFAUT);
     }
 
     public void empiler(Object o) throws PilePleineException {
         // a completer
+         if(taille==capacite){throw new PilePleineException();}       
+        stk.push(o);
+        taille++;
     }
 
     public Object depiler() throws PileVideException {
         // a completer
-        return null;
+        if(stk.isEmpty()){throw new PileVideException();}  
+        taille--;
+        return stk.pop();
     }
 
     public Object sommet() throws PileVideException {
         // a completer
-        return null;
+        if(stk.isEmpty()){throw new PileVideException();}  
+        return stk.peek();
     }
 
     /**
@@ -49,7 +62,7 @@ public class Pile2 implements PileI {
      */
     public boolean estVide() {
         // a completer
-        return false;
+        return taille==0;
     }
 
     /**
@@ -59,7 +72,7 @@ public class Pile2 implements PileI {
      */
     public boolean estPleine() {
         // a completer
-        return false;
+        return taille==capacite;
     }
 
     /**
@@ -69,7 +82,26 @@ public class Pile2 implements PileI {
      * @return une representation en String d'une pile
      */
     public String toString() {
-        String s = "[";
+         String s = "[";
+        if(!estVide()){
+            try{
+                Pile2 temp = (Pile2)this.clone();
+                int temptaille=temp.taille();
+                System.out.println("IN THE BEGINNING:"+temptaille);
+                for(int i=0;i<temptaille;i++){
+                    System.out.println("IN FOR:"+temptaille+"   "+i+"   "+temp.taille());
+                    s+=temp.depiler().toString();
+                    if (!temp.estVide())
+                        s+=", ";
+                }
+            }
+            catch(CloneNotSupportedException e){
+                e.printStackTrace();
+            }
+            catch(PileVideException e){
+                e.printStackTrace();
+            }
+        }      
         // a completer
         return s + "]";
     }
@@ -91,7 +123,7 @@ public class Pile2 implements PileI {
      */
     public int taille() {
         // a completer
-        return 0;
+        return taille;
     }
 
     /**
@@ -101,7 +133,8 @@ public class Pile2 implements PileI {
      */
     public int capacite() {
         // a completer
-        return 0;
+        return capacite;
     }
-
+    
+   
 } // Pile2.java

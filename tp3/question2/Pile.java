@@ -17,44 +17,54 @@ public class Pile implements PileI {
     public Pile(int taille) {
         // traiter le cas <=0
         // a completer
+        if(taille>0){
+            zone = new Object[taille];
+        }else{
+            zone = new Object[CAPACITE_PAR_DEFAUT];
+        }
+        ptr=0;
     }
 
     public Pile() {
-        this(0);
+        this(CAPACITE_PAR_DEFAUT);
     }
 
     public void empiler(Object o) throws PilePleineException {
         // a completer
+        if(estPleine()){throw new PilePleineException();}
+        zone[ptr++]=o;
     }
 
     public Object depiler() throws PileVideException {
         // a completer
-        return null;
+        if(estVide()){ throw new PileVideException();}
+        return zone[--ptr];
     }
 
     public Object sommet() throws PileVideException {
         // a completer
-        return null;
+        if(estVide()){throw new PileVideException();}   
+        return zone[ptr-1];
     }
 
     public int capacite() {
         // a completer
-        return -1;
+        return zone.length;
     }
 
     public int taille() {
         // a completer
-        return -1;
+        return ptr;
     }
 
     public boolean estVide() {
         // a completer
-        return false;
+        return ptr==0;
     }
 
     public boolean estPleine() {
         // a completer
-        return false;
+        return ptr == zone.length;
     }
 
     public boolean equals(Object o) {
@@ -69,6 +79,14 @@ public class Pile implements PileI {
 
     public String toString() {
         // a completer
-        return null;
+        String result = "[";
+        for (int i = ptr - 1; i >= 0; i--) {
+            result+=zone[i].toString();
+            if (i > 0)
+                result+=", ";
+        }
+        result+="]";
+        return result;
     }
+   
 }
